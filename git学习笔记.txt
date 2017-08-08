@@ -1,0 +1,60 @@
+1.git安装
+    linux：yum或者apt-get 直接就可以安装 
+    windows：下载地址为 https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.1/Git-2.14.0-64-bit.exe
+2.git初始化
+    $git config --global user.name 'dupengfei'
+	$git config --global user.name 'dpfrun@163.com'
+    
+	因为Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址。你也许会担心，如果有人故意冒充别人怎么办？这个不必担心，首先我们相信大家都是善良无知的群众，其次，真的有冒充的也是有办法可查的。
+    注意git config命令的--global参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。
+    
+	$mkdir gitlearning && cd gitlearning   \\创建git存放git仓库的目录
+	$git init    \\初始化git仓库，默认会生成一个空的git版本库
+
+3.命令介绍
+    add 将工作区修改后的文件添加到暂存区
+        例子：$git add test.txt
+	commit 将暂存区的文件添加到版本库，必要的参数为-m 指定描述文件都修改了那些信息，如果要回滚，这是一个很重要的参考信息
+	    例子：$git commit -m 'create file test.txt'
+	chenkout 有几个功能
+	    ①切换分支
+		     例子：$git checkout develop  \\表示切换到develop分支
+		②将工作区中的内容修改了，可是又没有add到暂存区，也没有commit到版本库，可以使用checkout恢复到最近的一次提交，也就是本次修改前。
+		     例子：当我将工作区中的文件test.txt做ileal修改，过了一会儿又不想修改了，可以直接使用checkout恢复。
+			     $git checkout -- test.txt  \\--表示当前分支
+		③创建分支并切换至
+		     例子：$git checkout -b dev
+	status 检查自从上次提交之后版本库中的内容与当前工作区中的内容的变化，比如在记不起是否提交时就用的到
+	    例子：$git status
+	diff 如果是文本文档，可以详细的查看文件具体修改了那些内容
+	    例子：$git diff HEAD -- test.txt
+    reset 将上次的add撤销掉，即将暂存区中的内容重新放回到工作区，然后使用git checkout HEAD -- test.txt恢复已经修改的文件
+	    例子：$git reset HEAD  test.txt   \\HEAD表示最新版本
+		      $git reset HEAD^  \\表示整个版本回至上一个版本,HEAD^^ 表示会退到上上个版本。。。。，HEAD~100 表示回退到前一百个版本
+              $			  
+	remote 将远程库关联至本地
+	    例子：$git remote add origin https://xxxx
+		    其中origin是远程仓库的默认名字
+	push 本地仓库提交到远程仓库
+	    例子：$git push -u origin master  \\加上-u参数，git会将本地仓库提交到远程的同时，将本地的master分支与远程的master分支关联起来，便于推送
+	clone 将一个远程的仓库克隆到本地
+	    例子：$git clone https://xxxxx/learning.git   \\克隆成功后会在本地生成一个learning的目录就是克隆得到的版本库。
+	branch 创建、删除、查看分支
+	    例子：$git branch   \\查看分支，前面带有*号表示当前分支
+		      $git branch dev  \\表示创建分支dev
+			  $git branch -d dev  \\删除分支dev
+	meger 合并分支
+	    例子：$git checkout master  \\切换到master分支
+		      $git meger dev  \\合并dev分支到master分支
+	stash  将当前的改变冷藏起来，适用于开发的时候有急事，代码不完整，不能提交的情况，先冷冻，后解冻。
+	    例子：$git stash
+		      $git stash list  \\查看冷冻列表
+			  $git stash apply  \\恢复冷冻的修改
+			  $git stash pop  \\将冷冻的修改恢复到工作区的同时删除冷冻部分
+			  $git stash apply stash{#}  \\恢复指定的stash
+	tag 默认给最后一个commit打标签
+	    例子：$git tag V1.0
+		      $git tag v1.1 6a5819e  \\给指定的commit ID打标签
+			  $git tag  \\查看已有的标签
+			  
+		
